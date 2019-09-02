@@ -44,49 +44,103 @@ QUnit.module('Тестируем функцию plainify', function () {
 
 		const nested3 = {
 			paws: 4,
-			tail:{
-				color:'black',
-				length:2,
+			tail: {
+				color: 'black',
+				length: 2,
 			},
-			age:5,
-			family:{
-				brother:'Fluff',
-				mother:'Puff',
+			age: 5,
+			family: {
+				brother: 'Fluff',
+				mother: 'Puff',
 			},
-		}
+		};
 
 		const plain3 = {
 			'paws': 4,
-			'tail.color':'black',
-			'tail.length':2,
-			'age':5,
-			'family.brother':'Fluff',
-			'family.mother':'Puff',
-		}
+			'tail.color': 'black',
+			'tail.length': 2,
+			'age': 5,
+			'family.brother': 'Fluff',
+			'family.mother': 'Puff',
+		};
 
 		assert.deepEqual(plainify(nested3), plain3);
 
 		const nested4 = {
-			country:{
+			country: {
 				name: 'Russia',
 				city: {
-					name:'Moscow',
-					region:{
-						name:'Izmaylovo',
-						street:{
-							name:'Izmaylovskiy prospekt'
+					name: 'Moscow',
+					region: {
+						name: 'Izmaylovo',
+						street: {
+							name: 'Izmaylovskiy prospekt'
 						}
 					}
 				}
 			}
-		}
+		};
 
-		const plain4={
+		const plain4 = {
 			'country.name': 'Russia',
 			'country.city.name': 'Moscow',
 			'country.city.region.name': 'Izmaylovo',
 			'country.city.region.street.name': 'Izmaylovskiy prospekt',
-		}
+		};
+
 		assert.deepEqual(plainify(nested4), plain4);
+
+		const nested5 = {
+			'paws': 4,
+			'tail': {
+				'color': 'black',
+				length: 2,
+			},
+		};
+
+		const plain5 = {
+			'paws': 4,
+			'tail.color': 'black',
+			'tail.length': 2,
+		};
+
+		assert.deepEqual(plainify(nested5), plain5);
+
+		assert.deepEqual(plainify({}), {});
+
+		const nested6 = {
+			'first': 1,
+			'2': {
+				'3': 3,
+				4: 4,
+			},
+			5:5,
+		};
+
+		const plain6 = {
+			'first': 1,
+			'2.3': 3,
+			'2.4': 4,
+			'5': 5,
+		};
+
+		assert.deepEqual(plainify(nested6), plain6);
+
+		const nested7 = {
+			'paws': 4,
+			'tail': {
+				'color': 'black',
+				length: {
+
+				},
+			},
+		};
+
+		const plain7 = {
+			'paws': 4,
+			'tail.color': 'black',
+		}
+
+		assert.deepEqual(plainify(nested7), plain7);
 	});
 });
