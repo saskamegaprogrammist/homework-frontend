@@ -41,5 +41,52 @@ QUnit.module('Тестируем функцию plainify', function () {
 		};
 
 		assert.deepEqual(plainify(nested2), plain2);
+
+		const nested3 = {
+			paws: 4,
+			tail:{
+				color:'black',
+				length:2,
+			},
+			age:5,
+			family:{
+				brother:'Fluff',
+				mother:'Puff',
+			},
+		}
+
+		const plain3 = {
+			'paws': 4,
+			'tail.color':'black',
+			'tail.length':2,
+			'age':5,
+			'family.brother':'Fluff',
+			'family.mother':'Puff',
+		}
+
+		assert.deepEqual(plainify(nested3), plain3);
+
+		const nested4 = {
+			country:{
+				name: 'Russia',
+				city: {
+					name:'Moscow',
+					region:{
+						name:'Izmaylovo',
+						street:{
+							name:'Izmaylovskiy prospekt'
+						}
+					}
+				}
+			}
+		}
+
+		const plain4={
+			'country.name': 'Russia',
+			'country.city.name': 'Moscow',
+			'country.city.region.name': 'Izmaylovo',
+			'country.city.region.street.name': 'Izmaylovskiy prospekt',
+		}
+		assert.deepEqual(plainify(nested4), plain4);
 	});
 });
