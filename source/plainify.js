@@ -1,16 +1,16 @@
 'use strict';
 
-let plainify = (object) => {
-    const oldObject = {};
+const plainify = (object) => {
+    const outerObject = {};
     for (let key in object) {
         if (typeof object[key] === 'object') {
-            const newObject = plainify(object[key]);
-            for (let field in newObject){
-                oldObject[`${key}.${field}`] = newObject[field];
+            const innerObject = plainify(object[key]);
+            for (let field in innerObject){
+                outerObject[key + "." + field] = innerObject[field];
             }
         } else {
-            oldObject[`${key}`] = object[key];
+            outerObject[key] = object[key];
         }
     }
-    return oldObject;
-};
+    return outerObject;
+}
