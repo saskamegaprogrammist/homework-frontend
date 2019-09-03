@@ -2,14 +2,14 @@
 
 const plainify = (object) => {
     const outerObject = {};
-    for (let key in object) {
-        if (typeof object[key] === 'object') {
-            const innerObject = plainify(object[key]);
-            for (let field in innerObject){
-                outerObject[key + "." + field] = innerObject[field];
+    for (let outerProperty in object) {
+        if (typeof object[outerProperty] === 'object') {
+            const innerObject = plainify(object[outerProperty]);
+            for (let innerProperty in innerObject){
+                outerObject[outerProperty + "." + innerProperty] = innerObject[innerProperty];
             }
         } else {
-            outerObject[key] = object[key];
+            outerObject[outerProperty] = object[outerProperty];
         }
     }
     return outerObject;

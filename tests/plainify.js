@@ -65,8 +65,30 @@ QUnit.module('Тестируем функцию plainify', function () {
 		};
 
 		assert.deepEqual(plainify(nested3), plain3);
+	});
 
-		const nested4 = {
+	QUnit.test('plainify правильно работает с пустым объектом', function (assert) {
+		assert.deepEqual(plainify({}), {});
+
+		const nested = {
+			'paws': 4,
+			'tail': {
+				'color': 'black',
+				length: {
+
+				},
+			},
+		};
+
+		const plain = {
+			'paws': 4,
+			'tail.color': 'black',
+		};
+
+		assert.deepEqual(plainify(nested), plain);
+	});
+	QUnit.test('plainify правильно работает с простым свойством и вложенным объектом', function (assert) {
+		const nested = {
 			country: {
 				name: 'Russia',
 				city: {
@@ -81,16 +103,19 @@ QUnit.module('Тестируем функцию plainify', function () {
 			}
 		};
 
-		const plain4 = {
+		const plain = {
 			'country.name': 'Russia',
 			'country.city.name': 'Moscow',
 			'country.city.region.name': 'Izmaylovo',
 			'country.city.region.street.name': 'Izmaylovskiy prospekt',
 		};
 
-		assert.deepEqual(plainify(nested4), plain4);
+		assert.deepEqual(plainify(nested), plain);
 
-		const nested5 = {
+	});
+
+	QUnit.test('plainify правильно работает со свойствами-строками', function (assert) {
+		const nested = {
 			'paws': 4,
 			'tail': {
 				'color': 'black',
@@ -98,17 +123,18 @@ QUnit.module('Тестируем функцию plainify', function () {
 			},
 		};
 
-		const plain5 = {
+		const plain = {
 			'paws': 4,
 			'tail.color': 'black',
 			'tail.length': 2,
 		};
 
-		assert.deepEqual(plainify(nested5), plain5);
+		assert.deepEqual(plainify(nested), plain);
+	});
 
-		assert.deepEqual(plainify({}), {});
+	QUnit.test('plainify правильно работает со свойствами-числами', function (assert) {
 
-		const nested6 = {
+		const nested = {
 			'first': 1,
 			'2': {
 				'3': 3,
@@ -117,30 +143,17 @@ QUnit.module('Тестируем функцию plainify', function () {
 			5:5,
 		};
 
-		const plain6 = {
+		const plain = {
 			'first': 1,
 			'2.3': 3,
 			'2.4': 4,
 			'5': 5,
 		};
 
-		assert.deepEqual(plainify(nested6), plain6);
+		assert.deepEqual(plainify(nested), plain);
+	});
 
-		const nested7 = {
-			'paws': 4,
-			'tail': {
-				'color': 'black',
-				length: {
-
-				},
-			},
-		};
-
-		const plain7 = {
-			'paws': 4,
-			'tail.color': 'black',
-		}
-
-		assert.deepEqual(plainify(nested7), plain7);
+	QUnit.test('plainify правильно работает с объектом с одним свойством', function (assert) {
+		assert.deepEqual(plainify({hi: 'hello'}), {'hi': 'hello'});
 	});
 });
